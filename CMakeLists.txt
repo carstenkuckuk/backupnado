@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
 
 project(backupnado)
 
@@ -11,6 +11,13 @@ set(CMAKE_BUILD_TYPE Release)
 # Recipe for libgit2 inclusion found on https://stackoverflow.com/questions/35373923/how-to-include-libgit2-via-cmake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 find_package(git2 REQUIRED)
+
+if(WIN32)
+	set(GIT2_INCLUDE_DIR "C:/program files/libgit2/include") # QUICKHACK for Windows as I can't get find_package to work
+	set(GIT2_LIBRARIES "C:/program files/libgit2/lib/git2.lib")
+endif()
+
+
 include_directories(${GIT2_INCLUDE_DIR})
 
 
