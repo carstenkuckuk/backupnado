@@ -4,9 +4,24 @@ project(backupnado)
 
 set(CMAKE_BUILD_TYPE Release)
 
+#######################################
+###
+### libgit2
+###
+# Recipe for libgit2 inclusion found on https://stackoverflow.com/questions/35373923/how-to-include-libgit2-via-cmake
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+find_package(git2 REQUIRED)
+include_directories(${GIT2_INCLUDE_DIR})
+
+
+
 
 add_executable(backupnado
     src/backupnado.cpp
+)
+
+target_link_libraries(backupnado
+	${GIT2_LIBRARIES}
 )
 
 
