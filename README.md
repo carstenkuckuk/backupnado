@@ -29,14 +29,17 @@ In order to compile backupnado, switch to the repository's root directory, and s
 create a Makefile, then compiles everything, and then creates a DEB package from it.
 
 ## Compiling on Windows
-Install Visual Studio (I'm working with VS 2010). Install CMake. Install NSIS. Install Git. Clone and compile libgit2 as follows:
-git clone https://github.com/libgit2/libgit1.git
+Install Visual Studio (I'm working with VS 2010). Install CMake. Install NSIS. Install Git. Install Python 3.7.0
+(libgit2 needs it for building tests.) Clone and compile libgit2 as follows:
+```
+git clone https://github.com/libgit2/libgit2.git
 cd libgit2
 mkdir xxx
 cd xxx
-cmake -G "Visual Studio 10 Win64" ..
+cmake -G "Visual Studio 15 2017 Win64" ..
 cmake --build . --config Release
 cmake --build . --target install (executed in an admin shell)
+```
 This copies the header files, the git.lib and the git.dll files to c:\program files\libgit2\...  folders. As I could not figure out
 how to find these files using the proper CMake means, I have set these paths directly in my own CMakeLists.txt for Windows. 
 
