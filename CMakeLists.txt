@@ -25,6 +25,23 @@ include_directories(${GIT2_INCLUDE_DIR})
 
 add_executable(backupnado
     src/backupnado.cpp
+
+	src/commands/HelpCommand.hpp
+	src/commands/HelpCommand.cpp
+	src/commands/InitCommand.hpp
+	src/commands/InitCommand.cpp
+
+	src/domain/version.hpp
+	src/domain/version.cpp
+	src/domain/BackupConfiguration.hpp
+	src/domain/BackupConfiguration.cpp
+
+	src/helpers/filehelpers.hpp
+	src/helpers/filehelpers.cpp
+	src/helpers/oshelpers.hpp
+	src/helpers/oshelpers.cpp
+	src/helpers/stringhelpers.hpp
+	src/helpers/stringhelpers.cpp
 )
 
 target_link_libraries(backupnado
