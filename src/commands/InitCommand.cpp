@@ -34,8 +34,8 @@ static void WriteBackupnadoConfigurationFile(std::string strNodeName, std::strin
 	WriteToFile(".backupnado", BC);
 }
 
-static void CreateEmptyCommit(git_repository *pRepo);
-static void CreateBranchFromEmptyCommit(git_repository *pRepo, std::string strBranchName);
+static git_commit* CreateEmptyCommit(git_repository *pRepo);
+static void CreateBranchFromEmptyCommit(git_repository *pRepo, git_commit *pCommit, std::string strBranchName);
 static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory)
 {
 	git_repository *pRepo = 0;
@@ -48,13 +48,13 @@ static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName
 
 	int nRetVal = git_repository_init_ext(&pRepo, strTargetDirectory.c_str(), &opts);
 
-	CreateEmptyCommit(pRepo);
-	CreateBranchFromEmptyCommit(pRepo, strNodeName);
+	git_commit *pCommit = CreateEmptyCommit(pRepo);
+	CreateBranchFromEmptyCommit(pRepo, pCommit, strNodeName);
 
 	git_repository_free(pRepo);
 }
 
-static void CreateEmptyCommit(git_repository *pRepo)
+static git_commit* CreateEmptyCommit(git_repository *pRepo)
 {
 	git_signature *sig=0;
 	int nRet1 = git_signature_now(&sig, "Backupnado", "backupnado@backupnado.net");
@@ -76,12 +76,19 @@ static void CreateEmptyCommit(git_repository *pRepo)
 		NULL, 
 		"This is the initial commit of a Backupnado repository. This repository contains computer backups "
 		"in its branches. For further information please read through the backupnado documentation.", tree, 0);
-	
+	git_commit *pCommit = 0;
+	int nRet6 = git_commit_lookup(&pCommit, pRepo, &commit_id);
+
 	git_tree_free(tree);
 	git_signature_free(sig);
+	return pCommit;
 }
 
-static void CreateBranchFromEmptyCommit(git_repository *pRepo, std::string strBranchName)
+static void CreateBranchFromEmptyCommit(git_repository *pRepo, git_commit *pCommit, std::string strBranchName)
 {
+	git_reference *pRef = 0;
+
+	int nRet1 = git_branch_create(&pRef, pRepo, strBranchName.c_str(), pCommit, 0);
+
 
 }
