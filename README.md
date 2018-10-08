@@ -22,9 +22,18 @@ line tool so that I can focus on getting the bare configuration and the backend 
 options, and then the GUI will be a focus. After that, I'll work on timestamp meta data. 
 
 ## Compiling on Linux
-Install your favourite Linux distribution (I use Ubuntu). Install the usual developer tools, especially a C++ compiler.
-Install CMake (sudo apt-get install cmake). Install libgit2 (sudo apt-get install libgit2-dev).
+Install your favourite Linux distribution (I use Ubuntu). Install the usual developer tools, especially a C++ compiler and CMake. (sudo apt-get install git cmake build-essential libssl-dev).
 
+Clone and compile libgit2 as follows:
+```
+git clone https://github.com/libgit2/libgit2.git
+cd libgit2
+mkdir xxx
+cd xxx
+cmake -G "Unix Makefiles" ..
+cmake --build .
+sudo cmake --build . --target install
+```
 In order to compile backupnado, switch to the repository's root directory, and start ./linuxbuild.bash. This has CMake 
 create a Makefile, then compiles everything, and then creates a DEB package from it.
 

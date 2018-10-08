@@ -5,6 +5,20 @@
 
 #include "oshelpers.hpp"
 
+#ifdef __linux__
+#include <unistd.h>
+std::string OsGetComputerName()
+{
+	char buf[500] = { 0 };
+	int nLen = 499;
+
+	int nRes = gethostname(buf, nLen);
+
+	std::string strRes = buf;
+	return strRes;
+}
+
+#else
 #include <Windows.h>
 
 std::string OsGetComputerName()
@@ -17,3 +31,5 @@ std::string OsGetComputerName()
 	std::string strRes = buf;
 	return strRes;
 }
+#endif
+

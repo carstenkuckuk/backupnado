@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.9.6)
 
 project(backupnado)
 
@@ -17,6 +17,10 @@ if(WIN32)
 	set(GIT2_LIBRARIES "C:/program files/libgit2/lib/git2.lib")
 endif()
 
+if(LINUX)
+	find_library(GIT2_LIBRARY NAMES git2)
+	set(GIT2_LIBRARIES ${GIT2_LIBRARY})
+endif()
 
 include_directories(${GIT2_INCLUDE_DIR})
 
