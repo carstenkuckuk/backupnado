@@ -8,7 +8,7 @@
 
 #include <string>
 
-int InitCommand(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory); // 0=ok, other: failure
+int InitCommand(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory, std::string strUserName, std::string strUserEMail); // 0=ok, other: failure
 
 #endif
 

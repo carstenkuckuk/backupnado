@@ -27,6 +27,8 @@ int main(int argc, char**argv)
 	}
 	
 	int nReturncode = backupnado(rgArgs);
+	
+	return nReturncode;
 }
 
 int backupnado(std::vector<std::string> rgArgs)
@@ -50,7 +52,9 @@ int backupnado(std::vector<std::string> rgArgs)
 		if (rgArgs.size() == 4)
 		{
 			std::string strComputername = OsGetComputerName();
-			nReturncode = InitCommand(strComputername, rgArgs[2], rgArgs[3]);
+			std::string strUserName = OsGetUserName();
+			std::string strUserEMail = OsGetUserEMail();
+			nReturncode = InitCommand(strComputername, rgArgs[2], rgArgs[3], strUserName, strUserEMail);
 		}
 		else
 		{

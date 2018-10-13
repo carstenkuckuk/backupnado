@@ -27,10 +27,16 @@ public:
 	void SetSourceDirectory(std::string strSourceDirectory);
 	std::string GetTargetDirectory() const;
 	void SetTargetDirectory(std::string strTargetDirectory);
+	std::string GetUserName() const;
+	void SetUserName(std::string strUserName);
+	std::string GetUserEMail() const;
+	void SetUserEMail(std::string strEMail);
 protected:
 	std::string m_strNodeName;			// Name of our computer. Used as (part of) branch name in backup
 	std::string m_strSourceDirectory;	// We want to backup everything that is in this directory
 	std::string m_strTargetDirectory;	// This is where we want to store the backups
+	std::string m_strUserName;			// User Name used for the commits to the repository
+	std::string m_strUserEMail;			// E-Mail address used for the commits to the repository
 };
 
 std::string to_string(const BackupConfiguration &refBC);
