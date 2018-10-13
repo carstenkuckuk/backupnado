@@ -10,5 +10,7 @@
 #include <vector>
 
 std::string OsGetComputerName();
+std::string OsGetUserName();
+std::string OsGetUserEMail();
 
 #endif

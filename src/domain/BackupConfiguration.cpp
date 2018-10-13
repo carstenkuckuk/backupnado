@@ -9,7 +9,8 @@
 #include "../helpers/stringhelpers.hpp"
 
 BackupConfiguration::BackupConfiguration()
-:m_strNodeName("NodeName"), m_strSourceDirectory("."), m_strTargetDirectory(".")
+:m_strNodeName("NodeName"), m_strSourceDirectory("."), m_strTargetDirectory("."),
+m_strUserName("User Name"), m_strUserEMail("user@example.org")
 {
 }
 
@@ -47,13 +48,34 @@ void BackupConfiguration::SetTargetDirectory(std::string strTargetDirectory)
 	m_strTargetDirectory = strTargetDirectory;
 }
 
+std::string BackupConfiguration::GetUserName() const
+{
+	return m_strUserName;
+}
+
+void BackupConfiguration::SetUserName(std::string strUserName)
+{
+	m_strUserName = strUserName;
+}
+
+std::string BackupConfiguration::GetUserEMail() const
+{
+	return m_strUserEMail;
+}
+
+void BackupConfiguration::SetUserEMail(std::string strEMail)
+{
+	m_strUserEMail = strEMail;
+}
 
 std::string to_string(const BackupConfiguration &refBC)
 {
 	std::string strResult = "BackupConfiguration("
 		"NodeName='" + refBC.GetNodeName() + "', "
 		"SourceDirectory='" + refBC.GetSourceDirectory() + "', "
-		"TargetDirectory='" + refBC.GetTargetDirectory() + "'"
+		"TargetDirectory='" + refBC.GetTargetDirectory() + "', "
+		"UserName='" + refBC.GetUserName() + "', "
+		"UserEMail='" + refBC.GetUserEMail() + "'"
 		")";
 	return strResult;
 }
@@ -66,10 +88,14 @@ bool ReadFromFile(std::string strFilename, BackupConfiguration &refBC) // true: 
 	std::string strNodeName = ConfigFileContentsFindFirstEntryByNameWithDefaultValue(rgFileContents, "NodeName", refBC.GetNodeName());
 	std::string strSourceDirectory = ConfigFileContentsFindFirstEntryByNameWithDefaultValue(rgFileContents, "SourceDirectory", refBC.GetSourceDirectory());
 	std::string strTargetDirectory = ConfigFileContentsFindFirstEntryByNameWithDefaultValue(rgFileContents, "TargetDirectory", refBC.GetTargetDirectory());
+	std::string strUserName = ConfigFileContentsFindFirstEntryByNameWithDefaultValue(rgFileContents, "UserName", refBC.GetUserName());
+	std::string strUSerEMail = ConfigFileContentsFindFirstEntryByNameWithDefaultValue(rgFileContents, "UserEMail", refBC.GetUserEMail());
 
 	refBC.SetNodeName(strNodeName);
 	refBC.SetSourceDirectory(strSourceDirectory);
 	refBC.SetTargetDirectory(strTargetDirectory);
+	refBC.SetUserName(strUserName);
+	refBC.SetUserEMail(strUSerEMail);
 
 	return true;
 }
@@ -82,6 +108,8 @@ bool WriteToFile(std::string strFilename, const BackupConfiguration &refBC) // t
 	rgFileContents.push_back("NodeName=" + refBC.GetNodeName());
 	rgFileContents.push_back("SourceDirectory=" + refBC.GetSourceDirectory());
 	rgFileContents.push_back("TargetDirectory=" + refBC.GetTargetDirectory());
+	rgFileContents.push_back("UserName=" + refBC.GetUserName());
+	rgFileContents.push_back("UserEMail=" + refBC.GetUserEMail());
 
 	bool bSuccessfull = WriteVectorOfStringToFile(strFilename, rgFileContents);
 

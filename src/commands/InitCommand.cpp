@@ -13,13 +13,13 @@
 #include <iostream>
 
 static void WriteBackupnadoConfigurationFile(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory);
-static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory);
+static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory, std::string strUserName, std::string strUserEMail);
 
-int InitCommand(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory) // 0=ok, other: failure
+int InitCommand(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory, std::string strUserName, std::string strUserEMail) // 0=ok, other: failure
 {
 	WriteBackupnadoConfigurationFile(strNodeName, strSourceDirectory, strTargetDirectory);
 
-	InitializeGitRepositoryForBackupOfComputerAt(strNodeName, strSourceDirectory, strTargetDirectory);
+	InitializeGitRepositoryForBackupOfComputerAt(strNodeName, strSourceDirectory, strTargetDirectory, strUserName, strUserEMail);
 
 	return 0;
 }
@@ -34,9 +34,9 @@ static void WriteBackupnadoConfigurationFile(std::string strNodeName, std::strin
 	WriteToFile(".backupnado", BC);
 }
 
-static git_commit* CreateEmptyCommit(git_repository *pRepo);
+static git_commit* CreateEmptyCommit(git_repository *pRepo, std::string strUserName, std::string strUserEMail);
 static void CreateBranchFromEmptyCommit(git_repository *pRepo, git_commit *pCommit, std::string strBranchName);
-static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory)
+static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName, std::string strSourceDirectory, std::string strTargetDirectory, std::string strUserName, std::string strUserEMail)
 {
 	git_repository *pRepo = 0;
 
@@ -48,16 +48,16 @@ static void InitializeGitRepositoryForBackupOfComputerAt(std::string strNodeName
 
 	int nRetVal = git_repository_init_ext(&pRepo, strTargetDirectory.c_str(), &opts);
 
-	git_commit *pCommit = CreateEmptyCommit(pRepo);
+	git_commit *pCommit = CreateEmptyCommit(pRepo, strUserName, strUserEMail);
 	CreateBranchFromEmptyCommit(pRepo, pCommit, strNodeName);
 
 	git_repository_free(pRepo);
 }
 
-static git_commit* CreateEmptyCommit(git_repository *pRepo)
+static git_commit* CreateEmptyCommit(git_repository *pRepo, std::string strUserName, std::string strUserEMail)
 {
 	git_signature *sig=0;
-	int nRet1 = git_signature_now(&sig, "Backupnado", "backupnado@backupnado.net");
+	int nRet1 = git_signature_now(&sig, strUserName.c_str(), strUserEMail.c_str() );
 
 	git_index *index=0;
 	int nRet2 = git_repository_index(&index, pRepo);
