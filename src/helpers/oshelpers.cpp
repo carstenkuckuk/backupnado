@@ -18,8 +18,19 @@ std::string OsGetComputerName()
 	std::string strRes = buf;
 	return strRes;
 }
-std::string OsGetUserName();xxx
-std::string OsGetUserEMail();xxx
+
+std::string OsGetUserName()
+{
+	std::string strUserName = getenv("USERNAME");
+	return strUserName;
+}
+
+std::string OsGetUserEMail()
+{
+	std::string strUserEMail = AllowOnlyAToZ0To9(OsGetUserName()) + "@" + OsGetComputerName() + ".local";
+	return strUserEMail;
+}
+
 
 #else
 #include <Windows.h>
